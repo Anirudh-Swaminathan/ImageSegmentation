@@ -57,6 +57,9 @@ for i in xrange(1,256):
 # find otsu's threshold value with OpenCV function
 ret, otsu = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
+# Save the output image
+cv2.imwrite("../Result/coin_thresh.jpg", otsu)
+
 plt.imshow(otsu, 'gray')
 plt.title('Output')
 plt.show()
