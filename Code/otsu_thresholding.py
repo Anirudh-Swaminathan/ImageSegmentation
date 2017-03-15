@@ -5,10 +5,24 @@ from matplotlib import pyplot as plt
 img = cv2.imread('../DataInput/coins.jpg',0)
 blur = cv2.GaussianBlur(img,(5,5),0)
 
+plt.imshow(blur, 'gray')
+plt.title('Input')
+plt.show()
+
 # find normalized_histogram, and its cumulative distribution function
+# Returns 256*1 numpy matrix, each having the number of pixels with that value of intensity
 hist = cv2.calcHist([blur],[0],None,[256],[0,256])
+# print hist.shape
+# print hist.max()
+
+# Normalize this hostogram from 0 to 1
 hist_norm = hist.ravel()/hist.max()
+# print hist_norm.shape
+
+# Find the cumulative distribution of the pixels wrt intensity
 Q = hist_norm.cumsum()
+# print Q.shape
+
 bins = np.arange(256)
 fn_min = np.inf
 thresh = -1
@@ -34,4 +48,12 @@ for i in xrange(1,256):
 
 # find otsu's threshold value with OpenCV function
 ret, otsu = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-print thresh,ret
+
+plt.imshow(otsu, 'gray')
+plt.title('Output')
+plt.show()
+
+print "Threshold gotten by native implementation:",thresh
+print "Threshold gotten by the OpenCV implementation:",ret
+
+print "Percentage error in calculation is",abs(thresh-ret)/ret*100.0,"%"
