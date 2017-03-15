@@ -12,11 +12,19 @@ plt.show()
 # find normalized_histogram, and its cumulative distribution function
 # Returns 256*1 numpy matrix, each having the number of pixels with that value of intensity
 hist = cv2.calcHist([blur],[0],None,[256],[0,256])
+
+# Plot the normalized histogram
+plt.hist(hist, np.arange(256))
+img = plt.gcf()
+plt.show()
+img.savefig('../Result/coin_hist.png', dpi=100)
+
 # print hist.shape
 # print hist.max()
 
 # Normalize this hostogram from 0 to 1
 hist_norm = hist.ravel()/hist.max()
+
 # print hist_norm.shape
 
 # Find the cumulative distribution of the pixels wrt intensity
